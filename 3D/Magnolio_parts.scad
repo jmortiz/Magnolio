@@ -284,15 +284,15 @@ module battery_holder_base(){
 		//top separators
 		for(ang=[0:90:270])
 			rotate([0,0,ang])
-				translate([0,resulting_inside_w/2-10,battery_holder_base_h+bar_height])
-					cube([ESC_cavity_width,20,bar_height*2],center=true);
+				translate([0,resulting_inside_w/2-11.5,battery_holder_base_h+bar_height])
+					cube([ESC_cavity_width-2,20,bar_height*2],center=true);
 		//bar cavity filler
 		rotate([0,0,-45])
 			translate([body_width/2-10,0,battery_holder_base_h+bar_height/2])
-				cube([20,bar_width,bar_height], center=true);
+				cube([20,bar_width-1.5,bar_height], center=true);
 		rotate([0,0,135])
 			translate([body_width/2-10,0,battery_holder_base_h+bar_height/2])
-				cube([20,bar_width,bar_height], center=true);
+				cube([20,bar_width-1.5,bar_height], center=true);
 	}
 }
 //translate([0,0,-battery_holder_base_h-expand_pieces_d*2])
@@ -373,15 +373,15 @@ module drone_top_layer_base(){
 			//bar cavity filler
 			rotate([0,0,45])
 				translate([body_width/2-10,0,-bar_height/2])
-					cube([20,bar_width,bar_height], center=true);
+					cube([20,bar_width-1.5,bar_height], center=true);
 			rotate([0,0,180+45])
 				translate([body_width/2-10,0,-bar_height/2])
-					cube([20,bar_width,bar_height], center=true);
+					cube([20,bar_width-1.5,bar_height], center=true);
 			//bottom separators
 			for(ang=[0:90:270])
 				rotate([0,0,ang])
-					translate([0,resulting_inside_w/2-10,-bar_height])
-						cube([ESC_cavity_width,20,bar_height*2],center=true);
+					translate([0,resulting_inside_w/2-11.5,-bar_height])
+						cube([ESC_cavity_width-2,20,bar_height*2],center=true);
 	}
 }
 //translate([0,0,50]) drone_top_layer_base();

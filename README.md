@@ -3,10 +3,10 @@ Magnolio
 
 An open source 3D-printed quad-copter designed with <a href="http://www.openscad.org/">OpenSCAD</a>.
 
-This project is currently at a very early stage. You can read about its progress at <a href="http://make.kinamics.com">Kinamics' Blog</a>.
+Although this project is currently at a very early development stage, you will be able to build a quadcopter with the current code. You can read about the project's progress at <a href="http://make.kinamics.com">Kinamics' Blog</a>.
 
 <h2>Design</h2>
-The design of the main parts in its entirety is done on OpenSCAD. The STL files for printing without modification are provided as well.
+The design of the main parts is done in its entirety on OpenSCAD. The STL files for printing without modification are provided as well.
 
 TODO:
 <ul>

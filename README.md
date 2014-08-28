@@ -2,7 +2,7 @@ Magnolio
 ========
 An open source 3D-printed quadcopter designed with <a href="http://www.openscad.org/">OpenSCAD</a>.
 
-<img src="https://lh4.googleusercontent.com/tI_Ts39iJLiralMukha3KhJOxkV9HPX9VxZB_PYyo-j_WGMTEgqN2UEwmcVHQY37dT1CbEogCBY=w1416-h795">
+<img src="http://make.kinamics.com/wp-content/uploads/2014/08/new-drone.png">
 
 Although this project is currently at a very early development stage, you will be able to build a quadcopter with the current code. You can read about the project's progress at <a href="http://make.kinamics.com">Kinamics' Blog</a>.
 

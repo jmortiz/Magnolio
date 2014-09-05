@@ -4,7 +4,11 @@ An open source 3D-printed quadcopter designed with <a href="http://www.openscad.
 
 <img src="http://make.kinamics.com/wp-content/uploads/2014/08/new-drone.png">
 
-Although this project is currently at a very early development stage, you will be able to build a quadcopter with the current code. You can read about the project's progress at <a href="http://make.kinamics.com">Kinamics' Blog</a>.
+Although this project is currently at a very early development stage, you will be able to build a quadcopter with the current code. You can read about the project's progress at <a href="http://make.kinamics.com">Kinamics Blog</a>.
+
+<h2>Usage</h2>
+All of the parts are coded as a module library on file <a href="https://github.com/jmortiz/Magnolio/blob/master/3D/Magnolio_parts.scad">3D/Magnolio_parts.scad</a>. The assembled result, as seen on the above picture, is generated on file <a href="https://github.com/jmortiz/Magnolio/blob/master/3D/Magnolio_assembly.scad">3D/Magnolio_assembly.scad</a>.
+Folder <a href="https://github.com/jmortiz/Magnolio/tree/master/3D/prints">3D/prints</a> contains code for generating individual parts for exporting to STL format and print. STL files already exported are provided on said folder as well.
 
 <h2>Design</h2>
 The design of the main parts is done in its entirety on OpenSCAD. The STL files for printing without modification are provided as well.

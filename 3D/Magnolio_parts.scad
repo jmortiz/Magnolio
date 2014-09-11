@@ -32,13 +32,14 @@ resulting_inside_w = resulting_outside_w - wall_width;
 echo("resulting_outside_w = ",resulting_outside_w);
 echo("resulting_inside_w = ",resulting_inside_w);
 
-arm_tube_radius = 6;
+arm_tube_diam = 12;
+arm_tube_radius = arm_tube_diam/2;  //kept for now for compatiblility
 
 ESC_cavity_width = 62;
 ESC_support_h = 2;
 ESC_cables_hole_r = 8;
-ESC_hole_x = 0;  //input the right measure!
-ESC_hole_y = 25; //input the right measure!
+ESC_hole_x = 18;  //input the right measure!
+ESC_hole_y = 18; //input the right measure!
 
 ESC_w = 30;
 ESC_d = 61;
@@ -102,118 +103,86 @@ motor_vent_r2 = 12;
 motor_vent_pos = 9.5; //distance from base center
 motor_support_total_r = motor_r+motor_support_gap+motor_support_wall_w;
 
-//for drawing actual body only, do not print!
-module drone_body_base(base_height = 3){
-	difference(){
-		//main body
-		translate([-body_width/2, -body_depth/2, 0]){
-			intersection(){
-				translate([body_width/2, body_depth/2, body_height/2])
-					rotate(a=[0,0,45])
-						cube([body_width*body_ratio,body_depth*body_ratio,body_height],center=true);
-				cube([body_width,body_depth,body_height]);
-			}
-		}
-		//inside cavity, considering space por ESC and connection PCB
-		if(base_height == 0)
-			translate([-inside_width/2, -inside_depth/2, base_height-1])
-				cube([inside_width,inside_depth,body_height+2]);
-		else
-			translate([-inside_width/2, -inside_depth/2, base_height-0.5])
-				cube([inside_width,inside_depth,body_height+1]);
-		if(base_height == 0)
-			translate([inside_depth/2, -inside_width/2, base_height-1])
-				rotate([0,0,90])
-					cube([inside_width,inside_depth,body_height+2]);
-		else
-			translate([inside_depth/2, -inside_width/2, base_height-0.5])
-				rotate([0,0,90])
-					cube([inside_width,inside_depth,body_height+1]);
-		
-		translate([0,0,body_height/2+base_height])
-			rotate([0,0,45])
-				cube([body_width*body_ratio-wall_width, 
-						ESC_cavity_width, 
-						body_height+1], center=true);
-		translate([0,0,body_height/2+base_height])
-			rotate([0,0,45+90])
-				cube([body_width*body_ratio-wall_width, 
-						ESC_cavity_width, 
-						body_height+1], center=true);
-	}
-}
-//drone_body_base(base_height=0);
-
+//Main structure, houses power electronics and joins arms
 module drone_body_main(){
-	color("DarkSlateGray",a=0.1){
+	color("DarkSlateGray",a=0.1) translate([0,0,body_height/2]) rotate([0,0,-45]){
 		difference(){
-			union(){
+			//Body base
+			intersection(){
+				cube([body_width,body_depth,body_height], center=true);
 				rotate([0,0,45])
-					difference(){
-						drone_body_base(base_height=0);
-						//arms 1 and 3 cavity
-						translate([0,1.1*body_width/2,body_height/2])
-							rotate(a=[90,0,0])
-								cylinder(h=1.1*body_width,r=arm_tube_radius);
-						//arms 2 and 4 cavity
-						translate([-1.1*body_width/2,0,body_height/2])
-							rotate(a=[0,90,0])
-								cylinder(h=1.1*body_width,r=arm_tube_radius);
-						//cross bars cavities
-						translate([0,0,bar_height/2-0.5])
-							cube([body_width+1,bar_width,bar_height+1],center=true);
-						translate([0,0,bar_height-0.5])
-							cube([bar_width,body_width+1,bar_height*2+1],center=true);
-						translate([0,0,body_height-bar_height/2+0.5])
-							cube([bar_width,body_width+1,bar_height+1],center=true);
-						translate([0,0,body_height-bar_height+0.5])
-							cube([body_width+1,bar_width,bar_height*2+1],center=true);
-					}
-				//ESC platform (above carbon fiber bars)
-				translate([0,0,bar_height*2])
-					rotate([0,0,45])
-						difference(){
-							drone_body_base(base_height=ESC_support_h);
-								translate([0,0,body_height/2+ESC_support_h])
-									cube([body_width*2,body_width*2,body_height],center=true);
-						}
+					cube([body_width*body_ratio,body_depth*body_ratio,body_height],center=true);
 			}
-			//hole for cables
-			translate([ESC_hole_x,ESC_hole_y,bar_height*2+ESC_support_h*1.1*0.5])
-				cylinder(r=ESC_cables_hole_r,h=ESC_support_h*1.2,center=true);
-			//holes for power dist mount
-			for(ang=[0:90:270])
-						rotate([0,0,ang])
-							translate([pwr_dist_fix_hole_pos,pwr_dist_fix_hole_pos,0])
-								cylinder(r=pwr_dist_fix_hole_r,h=pwr_dist_h*8,center=true);
+			//inside cavity
+			cube([inside_width,inside_depth,body_height+2],center=true);
+		
+			rotate([0,0,90])
+				cube([inside_width,inside_depth,body_height+2],center=true);
+		
+			//room for ESCs
+			rotate([0,0,45])
+				cube([resulting_inside_w,ESC_cavity_width,body_height+1], center=true);
+			rotate([0,0,45+90])
+				cube([resulting_inside_w,ESC_cavity_width,body_height+1], center=true);
+		
+			//cavities for tube arms
+			rotate([90,0,0])
+				cylinder(h=1.1*body_width,d=arm_tube_diam,center=true);
+			rotate([90,0,90])
+				cylinder(h=1.1*body_width,d=arm_tube_diam,center=true);
+			
+			//cavities for cross bars
+			translate([0,0,body_height/2-bar_height/2+0.5])
+				cube([body_width+1,bar_width,bar_height+1],center=true);
+			translate([0,0,body_height/2-bar_height+0.5])
+				cube([bar_width,body_width+1,bar_height*2+1],center=true);
+			translate([0,0,-body_height/2+bar_height-0.5])
+				cube([body_width+1,bar_width,bar_height*2+1],center=true);
+			translate([0,0,-body_height/2+bar_height/2-0.5])
+				cube([bar_width,body_width+1,bar_height+1],center=true);
 		}
-		//support for power dist PCB
+		
+		//platform for electronics
+		difference(){
+			//platform base
+			translate([0,0,-body_height/2+ESC_support_h/2+bar_height*2])
+				intersection(){
+					cube([body_width,body_depth,ESC_support_h], center=true);
+					rotate([0,0,45])
+						cube([body_width*body_ratio,body_depth*body_ratio,ESC_support_h],center=true);
+				}
+			//hole for cables
+			translate([ESC_hole_x,ESC_hole_y,-body_height/2+ESC_support_h/2+bar_height*2])
+				cylinder(r=ESC_cables_hole_r,h=ESC_support_h*1.2,center=true);
+		}
+		//support and separators
 		for(ang=[0:90:270])
-			rotate([0,0,ang])
+			rotate([0,0,45+ang]){
+				//support for power dist PCB
 				translate([pwr_dist_fix_hole_pos,
 							pwr_dist_fix_hole_pos,
-							pwr_dist_support_h/2+bar_height*2+ESC_support_h])
+							-body_height/2+pwr_dist_support_h/2+bar_height*2+ESC_support_h])
 					difference(){
 						cube([pwr_dist_support_w,pwr_dist_support_w,pwr_dist_support_h],center=true);
-						cylinder(r=pwr_dist_fix_hole_r,h=pwr_dist_h*8,center=true);
+						cylinder(r=pwr_dist_fix_hole_r,h=pwr_dist_support_h*2,center=true);
 					}
-		//ESC - power dist PCB separator
-		for(ang=[0:90:270])
-			rotate([0,0,ang]){
+				//Pwr dist - ESC separator 1
 				translate([(pwr_dist_w+ESC_pwr_dist_gap)/2,
 							pwr_dist_fix_hole_pos,
-							ESC_pwr_dist_separator_h/2+bar_height*2+ESC_support_h])
+							-body_height/2+ESC_pwr_dist_separator_h/2+bar_height*2+ESC_support_h])
 					cube([ESC_pwr_dist_gap,
 							pwr_dist_support_w,
 							ESC_pwr_dist_separator_h],center=true);
+				//Pwr dist - ESC separator 1
 				translate([pwr_dist_fix_hole_pos,
 							(pwr_dist_w+ESC_pwr_dist_gap)/2,
-							ESC_pwr_dist_separator_h/2+bar_height*2+ESC_support_h])
-					cube([pwr_dist_support_w,ESC_pwr_dist_gap,ESC_pwr_dist_separator_h],center=true);
+							-body_height/2+ESC_pwr_dist_separator_h/2+bar_height*2+ESC_support_h])
+					cube([pwr_dist_support_w,
+							ESC_pwr_dist_gap,
+							ESC_pwr_dist_separator_h],center=true);
 			}
 	}
 }
-//drone_body_main();
 
 module cross_bar(h=2,w=19,l=180,center=true,angle=0){
 	color("DarkGray")

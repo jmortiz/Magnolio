@@ -65,7 +65,7 @@ battery_case_w = 35; //inside
 battery_case_h = 59; //inside
 battery_case_wall_w = 4;
 battery_case_d1 = 2;  //chamfer
-battery_case_fixer_w = 8;
+battery_case_fixer_w = 12;
 battery_case_fixer_h = 4;
 battery_case_fixer_n = 7.14; // amount of structural triangles on fixer (each side)
 battery_case_fixer_triangle_w = 3;
@@ -269,7 +269,13 @@ module battery_holder_base(){
 
 module battery_holder_case(){
 	color("DarkSlateGray",a=0.1){
-		rotate([0,180,0]) case_base_open(l=resulting_outside_w,h=battery_case_h,w=battery_case_w,d1=1);
+		//rotate([0,180,0]) case_base_open(l=resulting_outside_w,h=battery_case_h,w=battery_case_w,d1=1);
+		translate([battery_case_w/2+battery_case_wall_w/2,0,-battery_case_h/2]) 
+			cube([battery_case_wall_w,resulting_outside_w,battery_case_h],center = true);
+		translate([-battery_case_w/2-battery_case_wall_w/2,0,-battery_case_h/2]) 
+			cube([battery_case_wall_w,resulting_outside_w,battery_case_h],center = true);
+		translate([0,0,battery_case_wall_w/2-battery_case_h])
+			cube([battery_case_w,resulting_outside_w,battery_case_wall_w],center=true);
 		//add border for fixing to base
 		translate([battery_case_w/2+battery_case_wall_w+battery_case_fixer_w/2,0,-battery_case_fixer_h/2])
 			cube([battery_case_fixer_w,resulting_outside_w,battery_case_fixer_h],center=true);

@@ -292,8 +292,8 @@ module battery_holder_case(){
 							[battery_case_w/2+battery_case_wall_w+battery_case_fixer_w,-battery_case_fixer_h],
 							[battery_case_w/2+battery_case_wall_w,-battery_case_fixer_h-battery_case_fixer_w]]);
 		//close back
-		translate([0,(resulting_outside_w-battery_case_wall_w)/2,-battery_case_h/2])
-			cube([battery_case_w,battery_case_wall_w,battery_case_h],center=true);
+		//translate([0,(resulting_outside_w-battery_case_wall_w)/2,-battery_case_h/2])
+		//	cube([battery_case_w,battery_case_wall_w,battery_case_h],center=true);
 	}
 }
 //translate([0,0,-battery_holder_base_h-expand_pieces_d*3])

@@ -19,6 +19,6 @@ Other info:
 
 */
 
-include <../body_v0.3.scad>
+include <../Magnolio_parts.scad>
 
 battery_holder_base();

@@ -1,3 +1,3 @@
-include <../body_v0.3.scad>
+include <../Magnolio_parts.scad>
 
 motor_arm_support();

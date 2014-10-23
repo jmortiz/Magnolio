@@ -23,6 +23,6 @@ Other info:
 
 */
 
-include <../body_v0.3.scad>
+include <../Magnolio_parts.scad>
 
-rotate([0,180,0]) battery_holder_case();
+battery_holder_case();

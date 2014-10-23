@@ -24,6 +24,6 @@ Other info:
 
 */
 
-include <../body_v0.3.scad>
+include <../Magnolio_parts.scad>
 
 drone_lid(only_print=true);
